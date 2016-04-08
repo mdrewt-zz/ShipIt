@@ -139,7 +139,8 @@ var questionTemplate = {
   form_only: {
     question_css_classes: '',
     input_field_css_classes: '',
-    help_text: ''
+    help_text: '',
+    field_set_begin: ''
   },
   view_only: {},
   pdf_only: {},
@@ -182,8 +183,9 @@ var App = React.createClass({
   },
 
   handleFormTypeChange: function(data) {
-    this.state.form_type.form_template_type_name = data;
-    this.forceUpdate();
+    var tmp = this.state.form_type;
+    tmp.form_template_type_name = data;
+    this.setState({ form_type: tmp });
   },
 
   importForm: function() {
@@ -514,6 +516,7 @@ var QuestionForm = React.createClass({
 
   handleFieldTypeChange: function(fieldType) {
     this.state.field_type = fieldType;
+    delete this.state['form_only']['options'];
     switch(fieldType) {
       case 'display_only':
         delete this.state['question'];
@@ -687,6 +690,21 @@ var HelpText = React.createClass({
     return (
       <div className='form-group'>
         <label className='question-label'>Help Text: </label>
+        <TextField data={ this.fieldData() } callback={ this.props.callback } />
+      </div>
+    );
+  }
+});
+
+var FieldSet = React.createClass({
+  fieldData: function() {
+    return { name: 'form_only[field_set_begin]', value: this.props.value }
+  },
+
+  render: function() {
+    return (
+      <div className='form-group'>
+        <label className='question-label'>Field Set Begin: </label>
         <TextField data={ this.fieldData() } callback={ this.props.callback } />
       </div>
     );
