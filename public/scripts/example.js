@@ -305,6 +305,19 @@ var Question = React.createClass({
     }
   },
 
+  options: function() {
+    var formOnly = this.props.data.form_only;
+    if(formOnly && formOnly.options) {
+      return (
+        <div className='question-field'>
+          Options: { JSON.stringify(formOnly.options) }
+        </div>
+      );
+    } else {
+      return null;
+    }
+  },
+
   helpText: function() {
     var formOnly = this.props.data.form_only;
     if(formOnly && formOnly.help_text) {
@@ -381,6 +394,7 @@ var Question = React.createClass({
         { this.fieldType() }
         { this.question() }
         { this.shortName() }
+        { this.options() }
         { this.helpText() }
         { this.message() }
         { this.isGreyBox() }
@@ -644,6 +658,7 @@ var Options = React.createClass({
   handleAddOption: function() {
     var nextOptions = this.state.options.concat([this.state.currentOption]);
     this.setState({options: nextOptions, currentOption: ''});
+    this.props.callback(nextOptions);
   },
 
   render: function() {
