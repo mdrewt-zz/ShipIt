@@ -193,25 +193,7 @@ var App = React.createClass({
   },
 
   exportFile: function() {
-    console.log(this.state);
-    // var YAML = window.YAML
-    // , json
-    // , data
-    // , yml
-    // ;
-    // var filename = 'offering_cycle_form.yml';
-    // var text = YAML.stringify(this.state);
-    // console.log(text);
-    // var element = document.createElement('a');
-    // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    // element.setAttribute('download', filename);
-    //
-    // element.style.display = 'none';
-    // document.body.appendChild(element);
-    //
-    // element.click();
-    //
-    // document.body.removeChild(element);
+    console.log(JSON.stringify(this.state))
   },
 
   render: function() {
@@ -333,10 +315,10 @@ var Question = React.createClass({
 
   fieldSetBegin: function() {
     var formOnly = this.props.data.form_only;
-    if(formOnly && formOnly.field_set_begin) {
+    if(this.props.data.field_set_begin || (formOnly && formOnly.field_set_begin)) {
       return (
         <div className='question-field'>
-          Field Set: <strong>{formOnly.field_set_begin}</strong>
+          Field Set: <strong>{this.props.data.field_set_begin || formOnly.field_set_begin}</strong>
         </div>
       );
     } else {
@@ -475,7 +457,7 @@ var QuestionForm = React.createClass({
     var formOnly = this.state.form_only;
     if(formOnly && this.state.field_type == 'display_only') {
       return (
-        <FieldSet value={ formOnly.field_set_begin } callback={ this.handleFieldSetChange } />
+        <FieldSet defaultValue={ formOnly.field_set_begin } callback={ this.handleFieldSetChange } />
       );
     } else {
       return null;
@@ -528,6 +510,10 @@ var QuestionForm = React.createClass({
     this.forceUpdate();
   },
 
+  handleFieldSetChange: function(fieldSet) {
+    this.setState({field_set_begin: fieldSet});
+  },
+
   handleFieldTypeChange: function(fieldType) {
     this.state.field_type = fieldType;
     delete this.state['form_only']['options'];
@@ -565,7 +551,7 @@ var QuestionForm = React.createClass({
 
   handleQuestionChange: function(questionText) {
     this.state.question = questionText;
-    this.state.field_name = questionText.replace(/([-\s])/g,'_').replace(':','').toLowerCase();
+    this.state.field_name = questionText.replace(/([-\s])/g,'_').replace(/([^\w])/g,'').toLowerCase();
     this.forceUpdate();
   },
 
