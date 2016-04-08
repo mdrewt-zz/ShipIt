@@ -38,3 +38,23 @@ app.use(function(req, res, next) {
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
+
+app.post('/api/export_file', function(req, res) {
+  console.log(req.body);
+
+  var filename = path.join(__dirname, req.body.form_type.offering_cycle_id + '_' + req.body.form_type.form_template_type_name + '.json');
+
+  var tmp = req.body.form;
+  req.body.form = {};
+  tmp.map(function(question, index){
+    req.body.form[index+1] = question;
+  })
+
+  fs.writeFile(filename, JSON.stringify(req.body, null, 4), function(err) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    res.json(req.body);
+  });
+});

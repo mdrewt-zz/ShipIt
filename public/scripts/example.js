@@ -193,7 +193,21 @@ var App = React.createClass({
   },
 
   exportFile: function() {
-    console.log(this.state);
+    console.log(JSON.stringify(this.state, null, 4));
+
+    $.ajax({
+      url: '/api/export_file',
+      dataType: 'text',
+      type: 'POST',
+      data: this.state,
+      success: function(data) {
+        console.log("Exported successfully!")
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+
     // var YAML = window.YAML
     // , json
     // , data
