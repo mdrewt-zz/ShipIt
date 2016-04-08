@@ -614,6 +614,20 @@ var QuestionText = React.createClass({
   }
 });
 
+var OptionList = React.createClass({
+  render: function() {
+    var createOption = function(option, index) {
+      return <li key={index}>{option}</li>;
+    };
+
+    if (this.props.options != undefined){
+      return <ul>{this.props.options.map(createOption)}</ul>;
+    } else {
+      return null;
+    }
+  }
+});
+
 var Options = React.createClass({
   getInitialState: function() {
     return {options: this.props.initialValue, currentOption: ''};
@@ -623,31 +637,20 @@ var Options = React.createClass({
     return { name: 'form_only[options][]', value: this.state.currentOption }
   },
 
-  options: function() {
-    this.state.options.map(function(option, index) {
-      return (
-        <li>{option}</li>
-      )
-    });
-  },
-
   handleCurrentOption: function(data) {
-    this.setState({currentOption: data})
+    this.setState({currentOption: data});
   },
 
   handleAddOption: function() {
-    this.state.options.push(this.state.currentOption);
-    this.state.currentOption = '';
-    this.props.callback(this.state.options);
-    this.forceUpdate();
+    var nextOptions = this.state.options.concat([this.state.currentOption]);
+    this.setState({options: nextOptions, currentOption: ''});
   },
 
   render: function() {
     return (
       <div id='OptionList'>
-        <ul>
-          { this.options }
-        </ul>
+        <h4> Current Options </h4>
+        <OptionList options={this.state.options} />
         <div className='form-group'>
           <TextField data={ this.fieldData() } callback={ this.handleCurrentOption } />
           <div className='btn btn-default' onClick={ this.handleAddOption } >Add Option</div>
@@ -743,7 +746,7 @@ var TextField = React.createClass({
 
   render: function() {
     return (
-      <input type='text' name={ this.props.data.name } defaultValue={ this.props.data.value } onChange={ this.handleChange } />
+      <input type='text' name={ this.props.data.name } defaultValue={ this.props.data.value } onChange={ this.handleChange } value={this.props.data.value} />
     );
   }
 });
