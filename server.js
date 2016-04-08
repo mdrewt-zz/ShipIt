@@ -15,6 +15,7 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var YAML = require('yamljs');
 
 var COMMENTS_FILE = path.join(__dirname, 'comments.json');
 
@@ -40,9 +41,7 @@ app.listen(app.get('port'), function() {
 });
 
 app.post('/api/export_file', function(req, res) {
-  console.log(req.body);
-
-  var filename = path.join(__dirname, req.body.form_type.offering_cycle_id + '_' + req.body.form_type.form_template_type_name + '.json');
+  var filename = path.join(__dirname, req.body.form_type.offering_cycle_id + '_' + req.body.form_type.form_template_type_name + '.yml');
 
   var tmp = req.body.form;
   req.body.form = {};
@@ -50,7 +49,9 @@ app.post('/api/export_file', function(req, res) {
     req.body.form[index+1] = question;
   })
 
-  fs.writeFile(filename, JSON.stringify(req.body, null, 4), function(err) {
+  var yaml_content = YAML.stringify(req.body);
+
+  fs.writeFile(filename, yaml_content, function(err) {
     if (err) {
       console.error(err);
       process.exit(1);
