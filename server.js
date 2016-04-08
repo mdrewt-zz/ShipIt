@@ -19,7 +19,7 @@ var YAML = require('yamljs');
 
 var COMMENTS_FILE = path.join(__dirname, 'comments.json');
 
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 3001));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -48,6 +48,8 @@ app.post('/api/export_file', function(req, res) {
   tmp.map(function(question, index){
     req.body.form[index+1] = question;
   })
+
+  req.body.form_type.offering_cycle_id = parseInt(req.body.form_type.offering_cycle_id);
 
   var yaml_content = YAML.stringify(req.body);
 
