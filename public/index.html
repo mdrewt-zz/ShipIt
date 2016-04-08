@@ -1,70 +1,30 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>React Tutorial</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/base.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.8/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.8/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- <script src="http://jsontoyaml.com/js/json2yaml.js"></script> -->
   </head>
   <body>
-    <div id="content"></div>
-    <script type="text/babel">
-      var CommentBox = React.createClass({
-        render: function() {
-          return (
-            <div className='commentBox'>
-              <h1>Comments</h1>
-              <CommentList />
-              <CommentForm />
-            </div>
-          );
-        }
-      });
+    <div class="container-fluid">
+      <div id="content" class="row">
+      </div>
 
-      var CommentList = React.createClass({
-        render: function() {
-          return (
-            <div className='commentList'>
-              </Comment author='Drew'>This is a comment!</Comment>
-              </Comment author='Sherry'>This is *another* comment!</Comment>
-            </div>
-          );
-        }
-      });
-
-      var CommentForm = React.createClass({
-        render: function() {
-          return: (
-            <div className='commentForm'>
-              I am a comment form.
-            </div>
-          );
-        }
-      });
-
-      var Comment({
-        rawMarkup: function() {
-          var markup = marked(this.props.children.toString(), {sanitize: true});
-          return { __html: markup };
-        },
-
-        render: function() {
-          return (
-            <div className='comment'>
-              <h2 className='commentAuthor'>
-                {this.props.author}
-              </h2>
-              <span></span>
-            </div>
-          );
-        }
-      });
-
-      ReactDom.render(<CommentBox />, document.getElementById('content'));
-    </script>
+      <script type="text/babel" src="scripts/example.js"></script>
+      <script type="text/babel">
+        // To get started with this tutorial running your own code, simply remove
+        // the script tag loading scripts/example.js and start writing code here.
+      </script>
+    </div>
   </body>
 </html>
